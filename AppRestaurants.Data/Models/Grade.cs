@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace AppRestaurants.Data.Models {
-    class Grade {
+    public class Grade {
+        public int ID { get; set; }
         public int Note { get; set; }
         public DateTime DateDerniereVisite { get; set; }
 

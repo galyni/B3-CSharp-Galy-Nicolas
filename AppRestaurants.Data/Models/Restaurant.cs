@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace AppRestaurants.Data.Models {
-    class Restaurant {
+    public class Restaurant {
         public int ID { get; set; }
         public string Nom { get; set; }
         public string Telephone { get; set; }
