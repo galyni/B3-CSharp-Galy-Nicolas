@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppRestaurants.Data.Tests",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppRestaurants.Services", "AppRestaurants.Services\AppRestaurants.Services.csproj", "{7D24BFEE-7F53-4299-88F4-EE9BA30D595F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppRestaurants.Web", "AppRestaurants.Web\AppRestaurants.Web.csproj", "{F136FBD3-4980-476B-8229-D7C29F4113C0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{7D24BFEE-7F53-4299-88F4-EE9BA30D595F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7D24BFEE-7F53-4299-88F4-EE9BA30D595F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7D24BFEE-7F53-4299-88F4-EE9BA30D595F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F136FBD3-4980-476B-8229-D7C29F4113C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F136FBD3-4980-476B-8229-D7C29F4113C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F136FBD3-4980-476B-8229-D7C29F4113C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F136FBD3-4980-476B-8229-D7C29F4113C0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
