@@ -8,9 +8,9 @@ namespace AppRestaurants.Data.Models {
         public string Nom { get; set; }
         public string Telephone { get; set; }
         public string Email { get; set; }
-        public string Commentaire { get; set; }
+        public string Details { get; set; }
+        public int AdresseID { get; set; }
         public Adresse Adresse { get; set; }
         public Grade LastGrade { get; set; }
-
     }
 }

@@ -10,10 +10,9 @@ namespace AppRestaurants.Data.Db {
         public DbSet<Restaurant> Restaurants { get; set; }
         public DbSet<Grade> Grades { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
-            // c'est une mauvaise pratique que nous corrigerons ultérieurement
-            optionsBuilder.UseSqlServer(
-               @"server=.\SQLEXPRESS;database=B3Restaurants;trusted_connection=true;");
+        public RestaurantsContext(DbContextOptions options) : base(options) {
+
         }
+
     }
 }

@@ -10,6 +10,8 @@ namespace AppRestaurants.Data.Models {
 
         // TODO contrainte 255 caractères
         public string Commentaire { get; set; }
+        public int RestaurantID { get; set; }
+        public Restaurant Restaurant { get; set; }
 
     }
 }
