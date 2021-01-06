@@ -14,7 +14,7 @@ namespace AppRestaurants.Services {
         }
 
         public virtual List<Restaurant> GetRestaurantsList() {
-            return _ctx.Restaurants.ToList();
+            return _ctx.Restaurants.Include(r => r.Adresse).ToList();
         }
 
         public virtual List<Restaurant> GetTopFiveWithGrades() {

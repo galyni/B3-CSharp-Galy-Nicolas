@@ -25,6 +25,7 @@ namespace AppRestaurants.Web {
             services.AddControllersWithViews();
             services.AddDbContext<RestaurantsContext>(options => options.UseSqlServer(Configuration.GetConnectionString("RestaurantsDb")));
             services.AddScoped<IRestaurantsService, RestaurantsService>();
+            services.AddScoped<IAdressesService, AdressesService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

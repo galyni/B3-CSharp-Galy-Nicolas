@@ -9,6 +9,7 @@ namespace AppRestaurants.Data.Db {
 
         public DbSet<Restaurant> Restaurants { get; set; }
         public DbSet<Grade> Grades { get; set; }
+        public DbSet<Adresse> Adresses { get; set; }
 
         public RestaurantsContext(DbContextOptions options) : base(options) {
 
