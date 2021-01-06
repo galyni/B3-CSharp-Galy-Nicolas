@@ -27,6 +27,12 @@
             <th>
                 @Html.DisplayNameFor(model => model.Adresse)
             </th>
+            <th>
+                Date de la dernière visite
+            </th>
+            <th>
+                Dernière note
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -47,6 +53,12 @@
             </td>
             <td>
                 @item.Adresse.ToString()
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastGrade.DateDerniereVisite)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastGrade.Note)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |

@@ -22,7 +22,7 @@ namespace AppRestaurants.Web.Controllers {
 
         // GET: RestaurantsController/Index
         public IActionResult Index() {
-            var liste = _restaurantsService.GetRestaurantsList();
+            var liste = _restaurantsService.GetRestaurantsListWithRelations();
             return View(liste);
         }
 
@@ -54,6 +54,7 @@ namespace AppRestaurants.Web.Controllers {
         // POST: Restaurants/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        //TODO : faire un choix cohérent : service adresse ou non ?
         public IActionResult Create([Bind("Nom,Telephone,Email,Details")] Restaurant restaurant, [Bind("Numero, Rue, Ville, CodePostal")] Adresse adresse) {
             if (ModelState.IsValid) {
                 _adressesService.CreateAdresse(adresse);
@@ -99,7 +100,7 @@ namespace AppRestaurants.Web.Controllers {
             if (ModelState.IsValid) {
                 try {
                     _restaurantsService.UpdateRestaurant(restaurant);
-                } catch (Exception e) {
+                } catch (Exception) {
                     return NotFound();
                 }
                 return RedirectToAction(nameof(Index));

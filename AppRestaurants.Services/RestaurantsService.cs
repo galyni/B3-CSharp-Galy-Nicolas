@@ -10,9 +10,12 @@ namespace AppRestaurants.Services {
         public RestaurantsService(RestaurantsContext ctx) {
             _ctx = ctx;
         }
-
+        // TODO : revoir : IQueryable ou List ?
         public virtual List<Restaurant> GetRestaurantsList() {
-            return _ctx.Restaurants.Include(r => r.Adresse).ToList();
+            return _ctx.Restaurants.ToList();
+        }
+        public virtual List<Restaurant> GetRestaurantsListWithRelations() {
+            return _ctx.Restaurants.Include(r => r.Adresse).Include(r => r.LastGrade).ToList();
         }
 
         public virtual List<Restaurant> GetTopFiveWithGrades() {
@@ -34,7 +37,7 @@ namespace AppRestaurants.Services {
         public virtual void UpdateRestaurant(Restaurant restaurant) {
             try {
                 _ctx.Restaurants.Update(restaurant);
-            } catch (DbUpdateConcurrencyException e) {
+            } catch (DbUpdateConcurrencyException) {
                 // TODO : améliorer la gestion d'exceptions
                 //if (!RestaurantExists(restaurant.ID)) {
                 //    throw;

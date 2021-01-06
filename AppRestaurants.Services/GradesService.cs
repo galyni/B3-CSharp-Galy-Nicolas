@@ -6,12 +6,14 @@ using System.Linq;
 using System.Text;
 
 namespace AppRestaurants.Services {
-    class GradesService {
+    public class GradesService {
         private RestaurantsContext _ctx;
         public GradesService(RestaurantsContext ctx) {
             _ctx = ctx;
         }
-
-       
+        public virtual void Create(Grade grade) {
+            _ctx.Grades.Add(grade);
+            _ctx.SaveChanges();
+        }
     }
 }
