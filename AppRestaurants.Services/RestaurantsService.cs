@@ -1,6 +1,7 @@
 ﻿using AppRestaurants.Data.Db;
 using AppRestaurants.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,6 +12,7 @@ namespace AppRestaurants.Services {
             _ctx = ctx;
         }
         // TODO : revoir : IQueryable ou List ?
+        //TODO : refactoriser les méthodes, ou mieux organiser.
         public virtual List<Restaurant> GetRestaurantsList() {
             return _ctx.Restaurants.ToList();
         }
@@ -31,9 +33,26 @@ namespace AppRestaurants.Services {
         }
 
         public virtual void CreateRestaurant(Restaurant restaurant) {
+            _ctx.Adresses.Add(restaurant.Adresse);
             _ctx.Restaurants.Add(restaurant);
             _ctx.SaveChanges();
         }
+
+        public virtual void CreateGrade(Grade grade) {
+            // On ne sauvegarde que la dernière note
+            if (RestaurantHasGrade(grade.RestaurantID)) {
+                grade.ID = _ctx.Grades.Where(g => g.RestaurantID == grade.RestaurantID).Select(g => g.ID).FirstOrDefault();
+                _ctx.Grades.Update(grade);
+            } else {
+                _ctx.Grades.Add(grade);
+            }
+            _ctx.SaveChanges();
+        }
+
+        private bool RestaurantHasGrade(int restaurantID) {
+            return _ctx.Restaurants.Any(r => r.ID == restaurantID);
+        }
+
         public virtual void UpdateRestaurant(Restaurant restaurant) {
             try {
                 _ctx.Restaurants.Update(restaurant);

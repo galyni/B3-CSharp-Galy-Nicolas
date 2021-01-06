@@ -7,11 +7,9 @@ using System;
 namespace AppRestaurants.Web.Controllers {
     public class RestaurantsController : Controller {
         private readonly IRestaurantsService _restaurantsService;
-        private readonly IAdressesService _adressesService;
 
-        public RestaurantsController(IRestaurantsService restaurantsService, IAdressesService adressesService) {
+        public RestaurantsController(IRestaurantsService restaurantsService) {
             _restaurantsService = restaurantsService;
-            _adressesService = adressesService;
         }
 
         // GET: RestaurantsController
@@ -57,7 +55,6 @@ namespace AppRestaurants.Web.Controllers {
         //TODO : faire un choix cohérent : service adresse ou non ?
         public IActionResult Create([Bind("Nom,Telephone,Email,Details")] Restaurant restaurant, [Bind("Numero, Rue, Ville, CodePostal")] Adresse adresse) {
             if (ModelState.IsValid) {
-                _adressesService.CreateAdresse(adresse);
                 restaurant.Adresse = adresse;
                 _restaurantsService.CreateRestaurant(restaurant);
                 return RedirectToAction(nameof(Index));
