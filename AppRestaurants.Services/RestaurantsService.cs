@@ -25,6 +25,9 @@ namespace AppRestaurants.Services {
             return _ctx.Restaurants.Find(id);
 
         }
+        public virtual Restaurant GetRestaurantWithAdresse(int id) {
+            return _ctx.Restaurants.Include(r => r.Adresse).FirstOrDefault(r => r.ID == id);
+        }
 
         public virtual void CreateRestaurant(Restaurant restaurant) {
             _ctx.Restaurants.Add(restaurant);
@@ -35,8 +38,10 @@ namespace AppRestaurants.Services {
             _ctx.SaveChanges();
         }
         public void DeleteRestaurant(int id) {
-            var restaurant = _ctx.Restaurants.Find(id);
+            // On supprime l'adresse associée au restaurant, parce qu'on suppose qu'il n'y a qu'un seul restaurant par adresse et qu'on ne manipule jamais les adresses elles-mêmes
+            var restaurant = GetRestaurantWithAdresse(id);
             _ctx.Remove(restaurant);
+            _ctx.Remove(restaurant.Adresse);
             _ctx.SaveChanges();
         }
     }

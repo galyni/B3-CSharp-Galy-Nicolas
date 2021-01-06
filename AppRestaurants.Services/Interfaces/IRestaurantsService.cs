@@ -6,6 +6,7 @@ namespace AppRestaurants.Services {
         void CreateRestaurant(Restaurant restaurant);
         void DeleteRestaurant(int id);
         Restaurant GetRestaurantById(int id);
+        Restaurant GetRestaurantWithAdresse(int id);
         List<Restaurant> GetRestaurantsList();
         List<Restaurant> GetTopFiveWithGrades();
         void UpdateRestaurant(Restaurant restaurant);

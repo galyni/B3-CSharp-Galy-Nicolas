@@ -1,24 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using AppRestaurants.Data.Db;
-using AppRestaurants.Data.Models;
+﻿using AppRestaurants.Data.Models;
 using AppRestaurants.Services;
 using AppRestaurants.Web.Models;
+using Microsoft.AspNetCore.Mvc;
 
-namespace AppRestaurants.Web.Controllers
-{
-    public class RestaurantsController : Controller
-    {
+namespace AppRestaurants.Web.Controllers {
+    public class RestaurantsController : Controller {
         private readonly IRestaurantsService _restaurantsService;
         private readonly IAdressesService _adressesService;
 
-        public RestaurantsController(IRestaurantsService restaurantsService, IAdressesService adressesService)
-        {
+        public RestaurantsController(IRestaurantsService restaurantsService, IAdressesService adressesService) {
             _restaurantsService = restaurantsService;
             _adressesService = adressesService;
         }
@@ -30,8 +20,7 @@ namespace AppRestaurants.Web.Controllers
         }
 
         // GET: RestaurantsController/Index
-        public IActionResult Index()
-        {
+        public IActionResult Index() {
             var liste = _restaurantsService.GetRestaurantsList();
             return View(liste);
         }
@@ -127,38 +116,28 @@ namespace AppRestaurants.Web.Controllers
         //    return View(restaurant);
         //}
 
-        //// GET: Restaurants/Delete/5
-        //public async Task<IActionResult> Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        // GET: Restaurants/Delete/5
+        public IActionResult Delete(int? id) {
+            if (id == null) {
+                return NotFound();
+            }
+            var restaurant = _restaurantsService.GetRestaurantById((int)id);
+            if (restaurant == null) {
+                return NotFound();
+            }
 
-        //    var restaurant = await _context.Restaurants
-        //        .Include(r => r.Adresse)
-        //        .FirstOrDefaultAsync(m => m.ID == id);
-        //    if (restaurant == null)
-        //    {
-        //        return NotFound();
-        //    }
+            return View(restaurant);
+        }
 
-        //    return View(restaurant);
-        //}
+        // POST: Restaurants/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteConfirmed(int id) {
+            _restaurantsService.DeleteRestaurant(id);
+            return RedirectToAction(nameof(Index));
+        }
 
-        //// POST: Restaurants/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(int id)
-        //{
-        //    var restaurant = await _context.Restaurants.FindAsync(id);
-        //    _context.Restaurants.Remove(restaurant);
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
-
-        //private bool RestaurantExists(int id)
-        //{
+        //private bool RestaurantExists(int id) {
         //    return _context.Restaurants.Any(e => e.ID == id);
         //}
     }
