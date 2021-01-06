@@ -13,12 +13,10 @@ namespace AppRestaurants.Web.Controllers
 {
     public class GradesController : Controller
     {
-        private readonly GradesService _gradesService;
         private readonly IRestaurantsService _restaurantsService;
 
-        public GradesController(GradesService gradesService, IRestaurantsService restaurantsService)
+        public GradesController(IRestaurantsService restaurantsService)
         {
-            _gradesService = gradesService;
             _restaurantsService = restaurantsService;
         }
 
@@ -64,8 +62,8 @@ namespace AppRestaurants.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                _gradesService.Create(grade);
-                return RedirectToAction(nameof(Index));
+                _restaurantsService.CreateGrade(grade);
+                return RedirectToAction("Index", "Restaurants");
             }
             ViewData["Restaurants"] = new SelectList(_restaurantsService.GetRestaurantsList(), "ID", "ID", grade.RestaurantID);
             return View(grade);
