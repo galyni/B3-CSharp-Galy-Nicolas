@@ -2,6 +2,7 @@
 using AppRestaurants.Services;
 using AppRestaurants.Web.Models;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace AppRestaurants.Web.Controllers {
     public class RestaurantsController : Controller {
@@ -63,82 +64,70 @@ namespace AppRestaurants.Web.Controllers {
             return View(restaurant);
         }
 
-        //// GET: Restaurants/Edit/5
-        //public async Task<IActionResult> Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var restaurant = await _context.Restaurants.FindAsync(id);
-        //    if (restaurant == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    ViewData["AdresseID"] = new SelectList(_context.Set<Adresse>(), "ID", "ID", restaurant.AdresseID);
-        //    return View(restaurant);
-        //}
-
-        //// POST: Restaurants/Edit/5
-        //// To protect from overposting attacks, enable the specific properties you want to bind to.
-        //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, [Bind("ID,Nom,Telephone,Email,Details,AdresseID")] Restaurant restaurant)
-        //{
-        //    if (id != restaurant.ID)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(restaurant);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!RestaurantExists(restaurant.ID))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    ViewData["AdresseID"] = new SelectList(_context.Set<Adresse>(), "ID", "ID", restaurant.AdresseID);
-        //    return View(restaurant);
-        //}
-
-        // GET: Restaurants/Delete/5
-        public IActionResult Delete(int? id) {
+        // GET: Restaurants/Edit/5
+        public IActionResult Edit(int? id) {
             if (id == null) {
                 return NotFound();
             }
-            var restaurant = _restaurantsService.GetRestaurantById((int)id);
+            // TODO : édition adresse
+            var restaurant = _restaurantsService.GetRestaurantWithAdresse((int)id);
             if (restaurant == null) {
                 return NotFound();
             }
 
+            //RestaurantViewModel viewModel = new RestaurantViewModel {
+            //    Nom = restaurant.Nom,
+            //    Telephone = restaurant.Telephone,
+            //    Email = restaurant.Email,
+            //    Details = restaurant.Details,
+            //    Numero = restaurant.Adresse.Numero,
+            //    Rue = restaurant.Adresse.Rue,
+            //    CodePostal = restaurant.Adresse.CodePostal,
+            //    Ville = restaurant.Adresse.Ville
+            //};
+
             return View(restaurant);
         }
 
-        // POST: Restaurants/Delete/5
-        [HttpPost, ActionName("Delete")]
+        // POST: Restaurants/Edit/5
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(int id) {
-            _restaurantsService.DeleteRestaurant(id);
-            return RedirectToAction(nameof(Index));
+        public IActionResult Edit(int id, [Bind("ID, Nom,Telephone,Email,Details, AdresseID")] Restaurant restaurant) {
+            if (id != restaurant.ID) {
+                return NotFound();
+            }
+            if (ModelState.IsValid) {
+                try {
+                    _restaurantsService.UpdateRestaurant(restaurant);
+                } catch (Exception e) {
+                    return NotFound();
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(restaurant);
+    }
+
+    // GET: Restaurants/Delete/5
+    public IActionResult Delete(int? id) {
+        if (id == null) {
+            return NotFound();
+        }
+        var restaurant = _restaurantsService.GetRestaurantById((int)id);
+        if (restaurant == null) {
+            return NotFound();
         }
 
-        //private bool RestaurantExists(int id) {
-        //    return _context.Restaurants.Any(e => e.ID == id);
-        //}
+        return View(restaurant);
     }
+
+    // POST: Restaurants/Delete/5
+    [HttpPost, ActionName("Delete")]
+    [ValidateAntiForgeryToken]
+    public IActionResult DeleteConfirmed(int id) {
+        _restaurantsService.DeleteRestaurant(id);
+        return RedirectToAction(nameof(Index));
+    }
+
+
+}
 }

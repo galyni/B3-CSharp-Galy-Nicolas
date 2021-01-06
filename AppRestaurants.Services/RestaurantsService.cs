@@ -1,10 +1,8 @@
 ﻿using AppRestaurants.Data.Db;
 using AppRestaurants.Data.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace AppRestaurants.Services {
     public class RestaurantsService : IRestaurantsService {
@@ -34,9 +32,18 @@ namespace AppRestaurants.Services {
             _ctx.SaveChanges();
         }
         public virtual void UpdateRestaurant(Restaurant restaurant) {
-            _ctx.Restaurants.Update(restaurant);
+            try {
+                _ctx.Restaurants.Update(restaurant);
+            } catch (DbUpdateConcurrencyException e) {
+                // TODO : améliorer la gestion d'exceptions
+                //if (!RestaurantExists(restaurant.ID)) {
+                //    throw;
+                //} else {
+                throw;
+            }
             _ctx.SaveChanges();
         }
+
         public void DeleteRestaurant(int id) {
             // On supprime l'adresse associée au restaurant, parce qu'on suppose qu'il n'y a qu'un seul restaurant par adresse et qu'on ne manipule jamais les adresses elles-mêmes
             var restaurant = GetRestaurantWithAdresse(id);
@@ -44,5 +51,9 @@ namespace AppRestaurants.Services {
             _ctx.Remove(restaurant.Adresse);
             _ctx.SaveChanges();
         }
+
+        //private bool RestaurantExists(int id) {
+        //    return _ctx.Restaurants.Any(e => e.ID == id);
+        //}
     }
 }
