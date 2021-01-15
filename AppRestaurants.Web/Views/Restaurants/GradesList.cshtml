@@ -1,0 +1,45 @@
+﻿@model IEnumerable<AppRestaurants.Data.Models.Restaurant>
+
+@{
+    ViewData["Title"] = "Liste des notes";
+}
+
+<h1>@ViewBag.Title</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nom)
+            </th>
+            <th>
+                Date de la dernière visite
+            </th>
+            <th>
+                Dernière note
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nom)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastGrade.DateDerniereVisite)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastGrade.Note)
+                </td>
+                <td>
+                    <a asp-action="CreateGrade" asp-controller="Restaurants" asp-route-id="@item.ID">Noter ce restaurant</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

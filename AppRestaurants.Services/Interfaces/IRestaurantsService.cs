@@ -8,6 +8,8 @@ namespace AppRestaurants.Services {
         void DeleteRestaurant(int id);
         Restaurant GetRestaurantById(int id);
         Restaurant GetRestaurantWithAdresse(int id);
+        Restaurant GetRestaurantWithRelations(int id);
+        List<Restaurant> GetRestaurantsListWithGrades();
         List<Restaurant> GetRestaurantsList();
         List<Restaurant> GetRestaurantsListWithRelations();
         List<Restaurant> GetTopFiveWithGrades();

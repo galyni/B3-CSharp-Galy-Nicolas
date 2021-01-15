@@ -2,6 +2,7 @@
 using AppRestaurants.Services;
 using AppRestaurants.Web.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 
 namespace AppRestaurants.Web.Controllers {
@@ -103,29 +104,59 @@ namespace AppRestaurants.Web.Controllers {
                 return RedirectToAction(nameof(Index));
             }
             return View(restaurant);
-    }
-
-    // GET: Restaurants/Delete/5
-    public IActionResult Delete(int? id) {
-        if (id == null) {
-            return NotFound();
-        }
-        var restaurant = _restaurantsService.GetRestaurantById((int)id);
-        if (restaurant == null) {
-            return NotFound();
         }
 
-        return View(restaurant);
+        // GET: Restaurants/Delete/5
+        public IActionResult Delete(int? id) {
+            if (id == null) {
+                return NotFound();
+            }
+            var restaurant = _restaurantsService.GetRestaurantById((int)id);
+            if (restaurant == null) {
+                return NotFound();
+            }
+
+            return View(restaurant);
+        }
+
+
+        // POST: Restaurants/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteConfirmed(int id) {
+            // TODO : faire ça ailleurs
+            try {
+                _restaurantsService.DeleteRestaurant(id);
+            } catch {
+                return NotFound();
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
+
+        public IActionResult CreateGrade() {
+            ViewData["Restaurants"] = new SelectList(_restaurantsService.GetRestaurantsList(), "ID", "Nom");
+            return View();
+        }
+
+        // POST: Grades/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreateGrade([Bind("Note,DateDerniereVisite,Commentaire,RestaurantID")] Grade grade) {
+            if (ModelState.IsValid) {
+                _restaurantsService.CreateGrade(grade);
+                return RedirectToAction("Index", "Restaurants");
+            }
+            ViewData["Restaurants"] = new SelectList(_restaurantsService.GetRestaurantsList(), "ID", "ID", grade.RestaurantID);
+            return View(grade);
+        }
+
+        public IActionResult GradesList() {
+            var restaurants = _restaurantsService.GetRestaurantsListWithGrades();
+            return View(restaurants);
+        }
+
     }
-
-    // POST: Restaurants/Delete/5
-    [HttpPost, ActionName("Delete")]
-    [ValidateAntiForgeryToken]
-    public IActionResult DeleteConfirmed(int id) {
-        _restaurantsService.DeleteRestaurant(id);
-        return RedirectToAction(nameof(Index));
-    }
-
-
-}
 }

@@ -8,17 +8,25 @@ using System.Linq;
 namespace AppRestaurants.Services {
     public class RestaurantsService : IRestaurantsService {
         private RestaurantsContext _ctx;
+
         public RestaurantsService(RestaurantsContext ctx) {
             _ctx = ctx;
         }
         // TODO : revoir : IQueryable ou List ?
-        //TODO : refactoriser les méthodes, ou mieux organiser.
+        // TODO : refactoriser les méthodes, ou mieux organiser.
+        // TODO : supprimer les méthodes non utilisées
         public virtual List<Restaurant> GetRestaurantsList() {
             return _ctx.Restaurants.ToList();
         }
+
+        public virtual List<Restaurant> GetRestaurantsListWithGrades() {
+            return _ctx.Restaurants.Include(r => r.LastGrade).ToList();
+        }
+
         public virtual List<Restaurant> GetRestaurantsListWithRelations() {
             return _ctx.Restaurants.Include(r => r.Adresse).Include(r => r.LastGrade).ToList();
         }
+
 
         public virtual List<Restaurant> GetTopFiveWithGrades() {
             return _ctx.Restaurants.Include(r => r.LastGrade).OrderByDescending(r => r.LastGrade.Note).Take(5).ToList();
@@ -32,6 +40,12 @@ namespace AppRestaurants.Services {
             return _ctx.Restaurants.Include(r => r.Adresse).FirstOrDefault(r => r.ID == id);
         }
 
+
+
+        public virtual Restaurant GetRestaurantWithRelations(int id) {
+            return _ctx.Restaurants.Include(r => r.Adresse).Include(r => r.LastGrade).FirstOrDefault(r => r.ID == id);
+        }
+
         public virtual void CreateRestaurant(Restaurant restaurant) {
             _ctx.Adresses.Add(restaurant.Adresse);
             _ctx.Restaurants.Add(restaurant);
@@ -39,7 +53,7 @@ namespace AppRestaurants.Services {
         }
 
         public virtual void CreateGrade(Grade grade) {
-            // On ne sauvegarde que la dernière note
+            // On ne sauvegarde que la dernière note.
             if (RestaurantHasGrade(grade.RestaurantID)) {
                 grade.ID = _ctx.Grades.Where(g => g.RestaurantID == grade.RestaurantID).Select(g => g.ID).FirstOrDefault();
                 _ctx.Grades.Update(grade);
@@ -68,9 +82,12 @@ namespace AppRestaurants.Services {
 
         public void DeleteRestaurant(int id) {
             // On supprime l'adresse associée au restaurant, parce qu'on suppose qu'il n'y a qu'un seul restaurant par adresse et qu'on ne manipule jamais les adresses elles-mêmes
-            var restaurant = GetRestaurantWithAdresse(id);
+            // Pour la note, on la supprime avec le restaurant
+            var restaurant = GetRestaurantWithRelations(id);
             _ctx.Remove(restaurant);
             _ctx.Remove(restaurant.Adresse);
+            if(restaurant.LastGrade != null)
+                _ctx.Remove(restaurant.LastGrade);
             _ctx.SaveChanges();
         }
 
