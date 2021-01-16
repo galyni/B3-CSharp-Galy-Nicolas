@@ -7,7 +7,7 @@
 <h1>@ViewBag.Title</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a class="btn btn-primary" asp-action="CreateGrade">Noter un restaurant</a>
 </p>
 <table class="table">
     <thead>
@@ -37,7 +37,7 @@
                     @Html.DisplayFor(modelItem => item.LastGrade.Note)
                 </td>
                 <td>
-                    <a asp-action="CreateGrade" asp-controller="Restaurants" asp-route-id="@item.ID">Noter ce restaurant</a>
+                    <a class="btn btn-primary" asp-action="CreateGradeForThisRestaurant" asp-controller="Restaurants" asp-route-id="@item.ID">Noter ce restaurant</a>
                 </td>
             </tr>
         }

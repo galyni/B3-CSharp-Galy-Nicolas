@@ -35,8 +35,24 @@
                 <span asp-validation-for="Details" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Adresse" class="control-label"></label><p>@Model.Adresse.ToString() <a asp-action="EditAdress">Changer adresse</a></p>
-                <span asp-validation-for="AdresseID" class="text-danger"></span>
+                <label asp-for="Adresse.Numero" class="control-label"></label>
+                <input asp-for="Adresse.Numero" class="form-control" />
+                <span asp-validation-for="Adresse.Numero" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Adresse.Rue" class="control-label"></label>
+                <input asp-for="Adresse.Rue" class="form-control" />
+                <span asp-validation-for="Adresse.Rue" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Adresse.CodePostal" class="control-label"></label>
+                <input asp-for="Adresse.CodePostal" class="form-control" />
+                <span asp-validation-for="Adresse.CodePostal" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Adresse.Ville" class="control-label"></label>
+                <input asp-for="Adresse.Ville" class="form-control" />
+                <span asp-validation-for="Adresse.Ville" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

@@ -52,7 +52,11 @@ namespace AppRestaurants.Web.Controllers {
         public IActionResult Create([Bind("Nom,Telephone,Email,Details")] Restaurant restaurant, [Bind("Numero, Rue, Ville, CodePostal")] Adresse adresse) {
             if (ModelState.IsValid) {
                 restaurant.Adresse = adresse;
-                _restaurantsService.CreateRestaurant(restaurant);
+                try {
+                    _restaurantsService.CreateRestaurant(restaurant);
+                } catch(Exception) {
+                    return NotFound();
+                }
                 return RedirectToAction(nameof(Index));
             }
             return View(restaurant);
@@ -75,12 +79,13 @@ namespace AppRestaurants.Web.Controllers {
         // POST: Restaurants/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, [Bind("ID, Nom,Telephone,Email,Details, AdresseID")] Restaurant restaurant) {
+        public IActionResult Edit(int id, [Bind("ID, Nom,Telephone,Email,Details, AdresseID")] Restaurant restaurant, [Bind("AdresseID, Numero, Rue, Ville, CodePostal")] Adresse adresse) {
             if (id != restaurant.ID) {
                 return NotFound();
             }
             if (ModelState.IsValid) {
                 try {
+                    restaurant.Adresse = adresse;
                     _restaurantsService.UpdateRestaurant(restaurant);
                 } catch (Exception) {
                     return NotFound();
@@ -128,10 +133,30 @@ namespace AppRestaurants.Web.Controllers {
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult CreateGrade([Bind("Note,DateDerniereVisite,Commentaire,RestaurantID")] Grade grade) {
+        public IActionResult CreateGrade([Bind("Note, DateDerniereVisite, Commentaire, RestaurantID")] Grade grade) {
             if (ModelState.IsValid) {
-                _restaurantsService.CreateGrade(grade);
-                return RedirectToAction("Index", "Restaurants");
+                _restaurantsService.GradeRestaurant(grade);
+                return RedirectToAction(nameof(GradesList));
+            }
+            ViewData["Restaurants"] = new SelectList(_restaurantsService.GetRestaurantsList(), "ID", "ID", grade.RestaurantID);
+            return View(grade);
+        }
+
+        public IActionResult CreateGradeForThisRestaurant(int id) {
+            var restaurant = _restaurantsService.GetRestaurantById(id);
+            var grade = new Grade() { Restaurant = restaurant, RestaurantID = restaurant.ID };
+            return View(grade);
+        }
+
+        // POST: Grades/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreateGradeForThisRestaurant([Bind("Note, DateDerniereVisite, Commentaire, RestaurantID")] Grade grade) {
+            if (ModelState.IsValid) {
+                _restaurantsService.GradeRestaurant(grade);
+                return RedirectToAction(nameof(GradesList));
             }
             ViewData["Restaurants"] = new SelectList(_restaurantsService.GetRestaurantsList(), "ID", "ID", grade.RestaurantID);
             return View(grade);
