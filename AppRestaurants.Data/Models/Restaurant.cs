@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Newtonsoft.Json;
 
 namespace AppRestaurants.Data.Models {
     public class Restaurant {
+        [JsonIgnore]
         public int ID { get; set; }
         public string Nom { get; set; }
         public string Telephone { get; set; }

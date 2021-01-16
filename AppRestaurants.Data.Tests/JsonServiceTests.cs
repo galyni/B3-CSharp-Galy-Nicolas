@@ -3,9 +3,7 @@ using AppRestaurants.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace AppRestaurants.Data.Tests {
 
@@ -14,14 +12,16 @@ namespace AppRestaurants.Data.Tests {
 
     [TestClass]
     public class JsonServiceTests {
-        
+
         private string fileName = "../../../Ressources/restaurants.net.json";
-        private DbContextOptionsBuilder optionsBuilder = new DbContextOptionsBuilder().UseSqlServer(@"server=.\SQLEXPRESS;database=B3Restaurants;trusted_connection=true;");
+        private string connectionString = @"server=.\SQLEXPRESS;database=B3Restaurants;trusted_connection=true;";
+        private DbContextOptionsBuilder optionsBuilder;
         private JsonService _jsonService;
 
         [TestInitialize]
         public void Setup() {
             _jsonService = new JsonService();
+            optionsBuilder = new DbContextOptionsBuilder().UseSqlServer(connectionString);
         }
 
         [TestMethod]
@@ -47,6 +47,26 @@ namespace AppRestaurants.Data.Tests {
                     Assert.Fail();
                 }
             }
+        }
+
+        [TestMethod]
+        public void RestoreDatabaseFromJsonTest() {
+            string connectionStringTest = @"server=.\SQLEXPRESS;database=RestaurantsTest;trusted_connection=true;";
+            try {
+                _jsonService.RestoreDatabaseFromJson(fileName, connectionStringTest);
+            } catch (Exception) {
+                Assert.Fail();
+            }
+        }
+
+        [TestMethod]
+        public void BackupDatabaseToJsonTest() {
+            try {
+                _jsonService.BackupDatabaseToJson(fileName, connectionString);
+            } catch (Exception) {
+                Assert.Fail();
+            }
+
         }
     }
 }
