@@ -40,7 +40,7 @@ namespace AppRestaurants.Web.Controllers {
         }
 
         // GET: Restaurants/Create
-        public IActionResult Create() {
+        public IActionResult CreateRestaurant() {
             Restaurant restaurant = new Restaurant();
             return View(restaurant);
         }
@@ -48,8 +48,7 @@ namespace AppRestaurants.Web.Controllers {
         // POST: Restaurants/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //TODO : faire un choix cohérent : service adresse ou non ?
-        public IActionResult Create([Bind("Nom,Telephone,Email,Details")] Restaurant restaurant, [Bind("Numero, Rue, Ville, CodePostal")] Adresse adresse) {
+        public IActionResult CreateRestaurant([Bind("Nom,Telephone,Email,Details")] Restaurant restaurant, [Bind("Numero, Rue, Ville, CodePostal")] Adresse adresse) {
             if (ModelState.IsValid) {
                 restaurant.Adresse = adresse;
                 try {
@@ -129,8 +128,6 @@ namespace AppRestaurants.Web.Controllers {
         }
 
         // POST: Grades/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult CreateGrade([Bind("Note, DateDerniereVisite, Commentaire, RestaurantID")] Grade grade) {
@@ -144,13 +141,11 @@ namespace AppRestaurants.Web.Controllers {
 
         public IActionResult CreateGradeForRestaurant(int id) {
             var restaurant = _restaurantsService.GetRestaurantById(id);
-            var grade = new Grade() { Restaurant = restaurant, RestaurantID = restaurant.ID };
-            return View(grade);
+            //var grade = new Grade() { Restaurant = restaurant, RestaurantID = restaurant.ID };
+            return View(restaurant);
         }
 
         // POST: Grades/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult CreateGradeForRestaurant([Bind("Note, DateDerniereVisite, Commentaire, RestaurantID")] Grade grade) {

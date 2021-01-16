@@ -47,7 +47,6 @@ namespace AppRestaurants.Services {
         }
 
         public virtual void CreateRestaurant(Restaurant restaurant) {
-            _ctx.Adresses.Add(restaurant.Adresse);
             _ctx.Restaurants.Add(restaurant);
             _ctx.SaveChanges();
         }

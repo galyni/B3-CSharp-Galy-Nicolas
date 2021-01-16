@@ -4,7 +4,7 @@
     ViewData["Title"] = "Noter un restaurant";
 }
 
-<h1>CreateGradeForThisRestaurant</h1>
+<h1>@ViewBag.Title</h1>
 
 <div>
     <h4>Restaurant</h4>
@@ -63,6 +63,5 @@
     </div>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="GradesList">Retour à la liste des notes</a>
 </div>
