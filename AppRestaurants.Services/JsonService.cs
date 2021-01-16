@@ -15,10 +15,10 @@ namespace AppRestaurants.Services {
         }
         public void SaveToFile(List<Restaurant> listeRestaurants, string fileName) {
             using (var sw = new StreamWriter(fileName)) {
-                foreach (var restau in listeRestaurants) {
-                    string v = JsonConvert.SerializeObject(restau);
+                //foreach (var restau in listeRestaurants) {
+                    var v = JsonConvert.SerializeObject(listeRestaurants);
                     sw.WriteLine(v);
-                }
+                //}
             }
         }
     }

@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AppRestaurants.Data\AppRestaurants.Data.csproj" />
+    <ProjectReference Include="..\AppRestaurants.Services\AppRestaurants.Services.csproj" />
   </ItemGroup>
 
   <ItemGroup>
