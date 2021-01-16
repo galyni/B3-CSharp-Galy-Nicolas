@@ -1,14 +1,15 @@
 ﻿@model IEnumerable<AppRestaurants.Data.Models.Restaurant>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Gestion des restaurants";
 }
 
-<h1>Index</h1>
+<h3>@ViewBag.Title</h3>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Créer un restaurant</a>
 </p>
+<h5>Liste</h5>
 <table class="table">
     <thead>
         <tr>
@@ -61,10 +62,8 @@
                 @Html.DisplayFor(modelItem => item.LastGrade.Note)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-                <a asp-action="Edit" asp-controller="Grades" asp-route-id="@item.ID">Modifier la note</a>
+                <a class="btn btn-secondary" style="margin:2px" asp-action="Edit" asp-route-id="@item.ID">Modifier</a>
+                <a class="btn btn-danger" style="margin:2px" asp-action="Delete" asp-route-id="@item.ID">Supprimer</a>
             </td>
         </tr>
 }

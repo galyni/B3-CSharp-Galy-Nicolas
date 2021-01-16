@@ -25,29 +25,24 @@ namespace AppRestaurants.Web.Controllers {
             return View(liste);
         }
 
-        //// GET: Restaurants/Details/5
-        //public async Task<IActionResult> Details(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        // GET: Restaurants/Details/5
+        public  IActionResult Details(int? id) {
+            if (id == null) {
+                return NotFound();
+            }
 
-        //    var restaurant = await _context.Restaurants
-        //        .Include(r => r.Adresse)
-        //        .FirstOrDefaultAsync(m => m.ID == id);
-        //    if (restaurant == null)
-        //    {
-        //        return NotFound();
-        //    }
+            var restaurant = _restaurantsService.GetRestaurantWithRelations((int)id);
+            if (restaurant == null) {
+                return NotFound();
+            }
 
-        //    return View(restaurant);
-        //}
+            return View(restaurant);
+        }
 
         // GET: Restaurants/Create
         public IActionResult Create() {
-            RestaurantViewModel viewModel = new RestaurantViewModel();
-            return View(viewModel);
+            Restaurant restaurant = new Restaurant();
+            return View(restaurant);
         }
 
         // POST: Restaurants/Create
@@ -73,17 +68,6 @@ namespace AppRestaurants.Web.Controllers {
             if (restaurant == null) {
                 return NotFound();
             }
-
-            //RestaurantViewModel viewModel = new RestaurantViewModel {
-            //    Nom = restaurant.Nom,
-            //    Telephone = restaurant.Telephone,
-            //    Email = restaurant.Email,
-            //    Details = restaurant.Details,
-            //    Numero = restaurant.Adresse.Numero,
-            //    Rue = restaurant.Adresse.Rue,
-            //    CodePostal = restaurant.Adresse.CodePostal,
-            //    Ville = restaurant.Adresse.Ville
-            //};
 
             return View(restaurant);
         }

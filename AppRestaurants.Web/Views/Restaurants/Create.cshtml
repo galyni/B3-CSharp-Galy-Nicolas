@@ -1,4 +1,4 @@
-﻿@model RestaurantViewModel;
+﻿@model AppRestaurants.Data.Models.Restaurant;
 
 @{
     ViewData["Title"] = "Create";
@@ -33,24 +33,24 @@
                 <span asp-validation-for="Details" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Numero" class="control-label"></label>
-                <input asp-for="Numero" class="form-control" />
-                <span asp-validation-for="Numero" class="text-danger"></span>
+                <label asp-for="Adresse.Numero" class="control-label"></label>
+                <input asp-for="Adresse.Numero" class="form-control" />
+                <span asp-validation-for="Adresse.Numero" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Rue" class="control-label"></label>
-                <input asp-for="Rue" class="form-control" />
-                <span asp-validation-for="Rue" class="text-danger"></span>
+                <label asp-for="Adresse.Rue" class="control-label"></label>
+                <input asp-for="Adresse.Rue" class="form-control" />
+                <span asp-validation-for="Adresse.Rue" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CodePostal" class="control-label"></label>
-                <input asp-for="CodePostal" class="form-control" />
-                <span asp-validation-for="CodePostal" class="text-danger"></span>
+                <label asp-for="Adresse.CodePostal" class="control-label"></label>
+                <input asp-for="Adresse.CodePostal" class="form-control" />
+                <span asp-validation-for="Adresse.CodePostal" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Ville" class="control-label"></label>
-                <input asp-for="Ville" class="form-control" />
-                <span asp-validation-for="Ville" class="text-danger"></span>
+                <label asp-for="Adresse.Ville" class="control-label"></label>
+                <input asp-for="Adresse.Ville" class="form-control" />
+                <span asp-validation-for="Adresse.Ville" class="text-danger"></span>
             </div>
 
             <div class="form-group">

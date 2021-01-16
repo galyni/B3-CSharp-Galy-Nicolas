@@ -1,32 +1,32 @@
 ﻿@model IEnumerable<AppRestaurants.Data.Models.Restaurant>
 
 @{
-    ViewData["Title"] = "Home";
+    ViewData["Title"] = "Top 5 restaurants";
 }
 
-<h1>Bienvenue</h1>
+<h1>Bienvenue !</h1>
 <h5>Voici les 5 meilleurs restaurants de Grenoble :</h5>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Nom)
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.Telephone)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Email)
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.Details)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.LastGrade.Note)
-            </th>
+            </th>  
             <th>
-                @Html.DisplayNameFor(model => model.Details)
+                @Html.DisplayNameFor(model => model.LastGrade.Commentaire)
             </th>
             <th></th>
         </tr>
@@ -37,22 +37,23 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Nom)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Telephone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastGrade.Note)
-            </td>
+            @*<td>
+            @Html.DisplayFor(modelItem => item.Telephone)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.Details)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                @Html.DisplayFor(modelItem => item.LastGrade.Note)
+            </td>
+            <th>
+                @Html.DisplayFor(modelItem => item.LastGrade.Commentaire)
+            </th>
+            <td>
+                <a class="btn btn-info" asp-action="Details" asp-route-id="@item.ID">Plus d'informations</a>
             </td>
         </tr>
 }
