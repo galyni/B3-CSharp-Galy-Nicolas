@@ -37,7 +37,7 @@
                     @Html.DisplayFor(modelItem => item.LastGrade.Note)
                 </td>
                 <td>
-                    <a class="btn btn-primary" asp-action="CreateGradeForThisRestaurant" asp-controller="Restaurants" asp-route-id="@item.ID">Noter ce restaurant</a>
+                    <a class="btn btn-primary" asp-action="CreateGradeForRestaurant" asp-controller="Restaurants" asp-route-id="@item.ID">Noter ce restaurant</a>
                 </td>
             </tr>
         }

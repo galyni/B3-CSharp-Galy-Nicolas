@@ -1,7 +1,7 @@
 ﻿@model AppRestaurants.Data.Models.Grade
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Noter un restaurant";
 }
 
 <h1>Create</h1>
@@ -18,7 +18,7 @@
                 <span asp-validation-for="Note" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DateDerniereVisite" class="control-label"></label>
+                <label class="control-label">Date de votre visite</label>
                 <input asp-for="DateDerniereVisite" class="form-control" />
                 <span asp-validation-for="DateDerniereVisite" class="text-danger"></span>
             </div>

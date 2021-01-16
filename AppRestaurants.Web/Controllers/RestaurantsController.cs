@@ -142,7 +142,7 @@ namespace AppRestaurants.Web.Controllers {
             return View(grade);
         }
 
-        public IActionResult CreateGradeForThisRestaurant(int id) {
+        public IActionResult CreateGradeForRestaurant(int id) {
             var restaurant = _restaurantsService.GetRestaurantById(id);
             var grade = new Grade() { Restaurant = restaurant, RestaurantID = restaurant.ID };
             return View(grade);
@@ -153,12 +153,11 @@ namespace AppRestaurants.Web.Controllers {
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult CreateGradeForThisRestaurant([Bind("Note, DateDerniereVisite, Commentaire, RestaurantID")] Grade grade) {
+        public IActionResult CreateGradeForRestaurant([Bind("Note, DateDerniereVisite, Commentaire, RestaurantID")] Grade grade) {
             if (ModelState.IsValid) {
                 _restaurantsService.GradeRestaurant(grade);
                 return RedirectToAction(nameof(GradesList));
             }
-            ViewData["Restaurants"] = new SelectList(_restaurantsService.GetRestaurantsList(), "ID", "ID", grade.RestaurantID);
             return View(grade);
         }
 
