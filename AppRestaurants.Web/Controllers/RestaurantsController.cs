@@ -1,9 +1,9 @@
 ﻿using AppRestaurants.Data.Models;
 using AppRestaurants.Services;
-using AppRestaurants.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
+using System.Collections.Generic;
 
 namespace AppRestaurants.Web.Controllers {
     public class RestaurantsController : Controller {
@@ -15,28 +15,39 @@ namespace AppRestaurants.Web.Controllers {
 
         // GET: RestaurantsController
         public IActionResult Home() {
-            var liste = _restaurantsService.GetTopFiveWithGrades();
-            return View(liste);
+            try {
+                var liste = _restaurantsService.GetTopFiveWithGrades();
+                return View(liste);
+            } catch {
+                return NotFound();
+            }
         }
 
         // GET: RestaurantsController/Index
         public IActionResult Index() {
-            var liste = _restaurantsService.GetRestaurantsListWithRelations();
+            List<Restaurant> liste;
+            try {
+                liste = _restaurantsService.GetRestaurantsListWithRelations();
+            } catch {
+                return NotFound();
+            }
             return View(liste);
         }
 
         // GET: Restaurants/Details/5
-        public  IActionResult Details(int? id) {
+        public IActionResult Details(int? id) {
             if (id == null) {
                 return NotFound();
             }
-
-            var restaurant = _restaurantsService.GetRestaurantWithRelations((int)id);
-            if (restaurant == null) {
+            try {
+                var restaurant = _restaurantsService.GetRestaurantWithRelations((int)id);
+                if (restaurant == null) {
+                    return NotFound();
+                }
+                return View(restaurant);
+            } catch {
                 return NotFound();
             }
-
-            return View(restaurant);
         }
 
         // GET: Restaurants/Create
@@ -53,7 +64,7 @@ namespace AppRestaurants.Web.Controllers {
                 //restaurant.Adresse = adresse;
                 try {
                     _restaurantsService.CreateRestaurant(restaurant);
-                } catch(Exception) {
+                } catch (Exception) {
                     return NotFound();
                 }
                 return RedirectToAction(nameof(Index));
@@ -66,13 +77,17 @@ namespace AppRestaurants.Web.Controllers {
             if (id == null) {
                 return NotFound();
             }
-            // TODO : édition adresse
-            var restaurant = _restaurantsService.GetRestaurantWithAdresse((int)id);
-            if (restaurant == null) {
+            try {
+                var restaurant = _restaurantsService.GetRestaurantWithAdresse((int)id);
+
+                if (restaurant == null) {
+                    return NotFound();
+                }
+                return View(restaurant);
+            } catch {
                 return NotFound();
             }
 
-            return View(restaurant);
         }
 
         // POST: Restaurants/Edit/5
@@ -80,11 +95,10 @@ namespace AppRestaurants.Web.Controllers {
         [ValidateAntiForgeryToken]
         public IActionResult Edit(Restaurant restaurant) {
             //if (id != restaurant.ID) {
-                //return NotFound();
+            //return NotFound();
             //}
             if (ModelState.IsValid) {
                 try {
-                    //restaurant.Adresse = adresse;
                     _restaurantsService.UpdateRestaurant(restaurant);
                 } catch (Exception) {
                     return NotFound();
@@ -99,12 +113,15 @@ namespace AppRestaurants.Web.Controllers {
             if (id == null) {
                 return NotFound();
             }
-            var restaurant = _restaurantsService.GetRestaurantById((int)id);
-            if (restaurant == null) {
+            try {
+                var restaurant = _restaurantsService.GetRestaurantById((int)id);
+                if (restaurant == null) {
+                    return NotFound();
+                }
+                return View(restaurant);
+            } catch (Exception) {
                 return NotFound();
             }
-
-            return View(restaurant);
         }
 
 
@@ -112,7 +129,6 @@ namespace AppRestaurants.Web.Controllers {
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id) {
-            // TODO : faire ça ailleurs
             try {
                 _restaurantsService.DeleteRestaurant(id);
             } catch {
@@ -132,8 +148,12 @@ namespace AppRestaurants.Web.Controllers {
         [ValidateAntiForgeryToken]
         public IActionResult CreateGrade(Grade grade) {
             if (ModelState.IsValid) {
-                _restaurantsService.GradeRestaurant(grade);
-                return RedirectToAction(nameof(GradesList));
+                try {
+                    _restaurantsService.GradeRestaurant(grade);
+                    return RedirectToAction(nameof(GradesList));
+                } catch {
+                    return NotFound();
+                }
             }
             ViewData["Restaurants"] = new SelectList(_restaurantsService.GetRestaurantsList(), "ID", "ID", grade.RestaurantID);
             return View(grade);
@@ -162,8 +182,12 @@ namespace AppRestaurants.Web.Controllers {
         }
 
         public IActionResult GradesList() {
-            var restaurants = _restaurantsService.GetRestaurantsListWithGrades();
-            return View(restaurants);
+            try {
+                var restaurants = _restaurantsService.GetRestaurantsListWithGrades();
+                return View(restaurants);
+            } catch {
+                return NotFound();
+            }
         }
 
     }

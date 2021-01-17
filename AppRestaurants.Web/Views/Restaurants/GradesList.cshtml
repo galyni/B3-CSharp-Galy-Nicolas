@@ -21,25 +21,31 @@
             <th>
                 Dernière note
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastGrade.Commentaire)
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model) {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Nom)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LastGrade.DateDerniereVisite)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LastGrade.Note)
-                </td>
-                <td>
-                    <a class="btn btn-primary" asp-action="CreateGradeForRestaurant" asp-controller="Restaurants" asp-route-id="@item.ID">Noter ce restaurant</a>
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nom)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastGrade.DateDerniereVisite)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastGrade.Note)
+            </td>
+            <th>
+                @Html.DisplayFor(modelItem => item.LastGrade.Commentaire)
+            </th>
+            <td>
+                <a class="btn btn-primary" asp-action="CreateGradeForRestaurant" asp-controller="Restaurants" asp-route-id="@item.ID">Noter ce restaurant</a>
+            </td>
+        </tr>
         }
     </tbody>
 </table>

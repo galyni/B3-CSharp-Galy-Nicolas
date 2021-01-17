@@ -12,8 +12,6 @@ namespace AppRestaurants.Data.Tests {
 
     [TestClass]
     public class JsonServiceTests {
-        // TODO : connection string dans un fichier
-
         private string fileName = "../../../Ressources/restaurants.net.json";
         private string connectionString = @"server=.\SQLEXPRESS;database=B3Restaurants;trusted_connection=true;";
         private DbContextOptionsBuilder optionsBuilder;

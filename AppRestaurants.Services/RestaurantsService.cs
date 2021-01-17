@@ -11,7 +11,6 @@ namespace AppRestaurants.Services {
         public RestaurantsService(RestaurantsContext ctx) {
             _ctx = ctx;
         }
-        // TODO : revoir : IQueryable ou List ?
         public virtual List<Restaurant> GetRestaurantsList() {
             return _ctx.Restaurants.ToList();
         }
@@ -26,7 +25,10 @@ namespace AppRestaurants.Services {
 
 
         public virtual List<Restaurant> GetTopFiveWithGrades() {
-            return _ctx.Restaurants.Include(r => r.LastGrade).Include(r => r.Adresse).Where(r => r.Adresse.Ville.ToLower() == "grenoble").OrderByDescending(r => r.LastGrade.Note).Take(5).ToList();
+            return _ctx.Restaurants.Include(r => r.LastGrade).Include(r => r.Adresse)
+                .Where(r => r.Adresse.Ville.ToLower() == "Grenoble")
+                .OrderByDescending(r => r.LastGrade.Note)
+                .Take(5).ToList();
         }
 
         public virtual Restaurant GetRestaurantById(int id) {
@@ -51,7 +53,9 @@ namespace AppRestaurants.Services {
         public virtual void GradeRestaurant(Grade grade) {
             // On ne sauvegarde que la dernière note.
             if (RestaurantHasGrade(grade.RestaurantID)) {
-                grade.ID = _ctx.Grades.Where(g => g.RestaurantID == grade.RestaurantID).Select(g => g.ID).FirstOrDefault();
+                grade.ID = _ctx.Grades
+                    .Where(g => g.RestaurantID == grade.RestaurantID)
+                    .Select(g => g.ID).FirstOrDefault();
                 _ctx.Grades.Update(grade);
             } else {
                 _ctx.Grades.Add(grade);

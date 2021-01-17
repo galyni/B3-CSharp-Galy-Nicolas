@@ -17,15 +17,6 @@
                 @Html.DisplayNameFor(model => model.Nom)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Telephone)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Details)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Adresse)
             </th>
             <th>
@@ -44,15 +35,6 @@
                 @Html.DisplayFor(modelItem => item.Nom)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Telephone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Details)
-            </td>
-            <td>
                 @item.Adresse.ToString()
             </td>
             <td>
@@ -64,6 +46,7 @@
             <td>
                 <a class="btn btn-secondary" style="margin:2px" asp-action="Edit" asp-route-id="@item.ID">Modifier</a>
                 <a class="btn btn-danger" style="margin:2px" asp-action="Delete" asp-route-id="@item.ID">Supprimer</a>
+                <a class="btn btn-info" asp-action="Details" asp-route-id="@item.ID">Plus d'informations</a>
             </td>
         </tr>
 }

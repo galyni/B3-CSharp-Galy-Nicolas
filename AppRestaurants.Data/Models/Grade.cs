@@ -12,8 +12,11 @@ namespace AppRestaurants.Data.Models {
         [Range(0, 10)]
         public int Note { get; set; }
 
+        [Required]
         public DateTime DateDerniereVisite { get; set; }
 
+
+        [Required]
         [StringLength(255)]
         public string Commentaire { get; set; }
         public int RestaurantID { get; set; }

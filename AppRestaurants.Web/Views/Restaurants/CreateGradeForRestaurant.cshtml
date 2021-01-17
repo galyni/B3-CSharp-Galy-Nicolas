@@ -42,17 +42,17 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="LastGrade.Note" class="control-label"></label>
-                <input asp-for="LastGrade.Note" class="form-control" />
+                <input required asp-for="LastGrade.Note" class="form-control" />
                 <span asp-validation-for="LastGrade.Note" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label class="control-label">Date de votre visite</label>
-                <input asp-for="LastGrade.DateDerniereVisite" class="form-control" />
+                <input required asp-for="LastGrade.DateDerniereVisite" class="form-control" />
                 <span asp-validation-for="LastGrade.DateDerniereVisite" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="LastGrade.Commentaire" class="control-label"></label>
-                <input asp-for="LastGrade.Commentaire" class="form-control" />
+                <input required asp-for="LastGrade.Commentaire" class="form-control" />
                 <span asp-validation-for="LastGrade.Commentaire" class="text-danger"></span>
             </div>
             <div class="form-group">
