@@ -26,6 +26,7 @@ namespace AppRestaurants.Services {
         public void RestoreDatabaseFromJson(string fileName, string connectionString) {
             var restaurants = LoadFromFile(fileName);
             using (var db = new RestaurantsContext((new DbContextOptionsBuilder().UseSqlServer(connectionString)).Options)) {
+                db.Database.EnsureDeleted();
                 db.Database.EnsureCreated();
                 restaurants.ForEach(r => {
                     db.Add(r);

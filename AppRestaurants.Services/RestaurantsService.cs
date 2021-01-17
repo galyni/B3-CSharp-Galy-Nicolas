@@ -1,7 +1,6 @@
 ﻿using AppRestaurants.Data.Db;
 using AppRestaurants.Data.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -65,15 +64,7 @@ namespace AppRestaurants.Services {
         }
 
         public virtual void UpdateRestaurant(Restaurant restaurant) {
-            try {
-                _ctx.Restaurants.Update(restaurant);
-            } catch (DbUpdateConcurrencyException) {
-                // TODO : améliorer la gestion d'exceptions
-                //if (!RestaurantExists(restaurant.ID)) {
-                //    throw;
-                //} else {
-                throw;
-            }
+            _ctx.Restaurants.Update(restaurant);
             _ctx.SaveChanges();
         }
 
@@ -82,7 +73,7 @@ namespace AppRestaurants.Services {
             var restaurant = GetRestaurantWithRelations(id);
             _ctx.Remove(restaurant);
             _ctx.Remove(restaurant.Adresse);
-            if(restaurant.LastGrade != null)
+            if (restaurant.LastGrade != null)
                 _ctx.Remove(restaurant.LastGrade);
             _ctx.SaveChanges();
         }

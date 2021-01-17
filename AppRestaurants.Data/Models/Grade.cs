@@ -14,7 +14,7 @@ namespace AppRestaurants.Data.Models {
 
         public DateTime DateDerniereVisite { get; set; }
 
-        // TODO contrainte 255 caractères
+        [StringLength(255)]
         public string Commentaire { get; set; }
         public int RestaurantID { get; set; }
 

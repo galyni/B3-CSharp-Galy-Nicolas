@@ -12,6 +12,7 @@ namespace AppRestaurants.Data.Tests {
 
     [TestClass]
     public class JsonServiceTests {
+        // TODO : connection string dans un fichier
 
         private string fileName = "../../../Ressources/restaurants.net.json";
         private string connectionString = @"server=.\SQLEXPRESS;database=B3Restaurants;trusted_connection=true;";
@@ -24,17 +25,6 @@ namespace AppRestaurants.Data.Tests {
             optionsBuilder = new DbContextOptionsBuilder().UseSqlServer(connectionString);
         }
 
-        [TestMethod]
-        public void LoadFromFileTest() {
-            using (var db = new RestaurantsContext(optionsBuilder.Options)) {
-                try {
-                    var restaurants = _jsonService.LoadFromFile(fileName);
-                    Assert.AreEqual(restaurants.Count, db.Restaurants.Count());
-                } catch (Exception) {
-                    Assert.Fail();
-                }
-            }
-        }
 
         [TestMethod]
         public void SaveToFileTest() {
@@ -43,6 +33,29 @@ namespace AppRestaurants.Data.Tests {
                     var restaurants = db.Restaurants.ToList();
                     _jsonService.SaveToFile(restaurants, fileName);
                     Assert.IsTrue(System.IO.File.Exists(fileName));
+                } catch (Exception) {
+                    Assert.Fail();
+                }
+            }
+        }
+
+
+        [TestMethod]
+        public void BackupDatabaseToJsonTest() {
+            try {
+                _jsonService.BackupDatabaseToJson(fileName, connectionString);
+            } catch (Exception) {
+                Assert.Fail();
+            }
+
+        }
+
+        [TestMethod]
+        public void LoadFromFileTest() {
+            using (var db = new RestaurantsContext(optionsBuilder.Options)) {
+                try {
+                    var restaurants = _jsonService.LoadFromFile(fileName);
+                    Assert.AreEqual(restaurants.Count, db.Restaurants.Count());
                 } catch (Exception) {
                     Assert.Fail();
                 }
@@ -59,14 +72,5 @@ namespace AppRestaurants.Data.Tests {
             }
         }
 
-        [TestMethod]
-        public void BackupDatabaseToJsonTest() {
-            try {
-                _jsonService.BackupDatabaseToJson(fileName, connectionString);
-            } catch (Exception) {
-                Assert.Fail();
-            }
-
-        }
     }
 }
