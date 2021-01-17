@@ -65,7 +65,7 @@ namespace AppRestaurants.Data.Tests {
             string connectionStringTest = @"server=.\SQLEXPRESS;database=RestaurantsTest;trusted_connection=true;";
             try {
                 _jsonService.RestoreDatabaseFromJson(fileName, connectionStringTest);
-            } catch (Exception) {
+            } catch (Exception e) {
                 Assert.Fail();
             }
         }
