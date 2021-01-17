@@ -26,7 +26,7 @@ namespace AppRestaurants.Services {
 
         public virtual List<Restaurant> GetTopFiveWithGrades() {
             return _ctx.Restaurants.Include(r => r.LastGrade).Include(r => r.Adresse)
-                .Where(r => r.Adresse.Ville.ToLower() == "Grenoble")
+                .Where(r => r.Adresse.Ville.ToLower() == "grenoble")
                 .OrderByDescending(r => r.LastGrade.Note)
                 .Take(5).ToList();
         }
