@@ -12,7 +12,6 @@ namespace AppRestaurants.Data.Models {
         [Range(0, 10)]
         public int Note { get; set; }
 
-        [Range(typeof(DateTime), "1/1/2000", "1/1/2100")]
         public DateTime DateDerniereVisite { get; set; }
 
         // TODO contrainte 255 caractères

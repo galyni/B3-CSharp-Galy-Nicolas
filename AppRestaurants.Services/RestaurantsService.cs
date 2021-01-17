@@ -13,8 +13,6 @@ namespace AppRestaurants.Services {
             _ctx = ctx;
         }
         // TODO : revoir : IQueryable ou List ?
-        // TODO : refactoriser les méthodes, ou mieux organiser.
-        // TODO : supprimer les méthodes non utilisées
         public virtual List<Restaurant> GetRestaurantsList() {
             return _ctx.Restaurants.ToList();
         }
@@ -81,7 +79,6 @@ namespace AppRestaurants.Services {
 
         public void DeleteRestaurant(int id) {
             // On supprime l'adresse associée au restaurant, parce qu'on suppose qu'il n'y a qu'un seul restaurant par adresse et qu'on ne manipule jamais les adresses elles-mêmes
-            // Pour la note, on la supprime avec le restaurant
             var restaurant = GetRestaurantWithRelations(id);
             _ctx.Remove(restaurant);
             _ctx.Remove(restaurant.Adresse);
@@ -89,9 +86,5 @@ namespace AppRestaurants.Services {
                 _ctx.Remove(restaurant.LastGrade);
             _ctx.SaveChanges();
         }
-
-        //private bool RestaurantExists(int id) {
-        //    return _ctx.Restaurants.Any(e => e.ID == id);
-        //}
     }
 }

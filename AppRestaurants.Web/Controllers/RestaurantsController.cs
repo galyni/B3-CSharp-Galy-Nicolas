@@ -48,9 +48,9 @@ namespace AppRestaurants.Web.Controllers {
         // POST: Restaurants/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult CreateRestaurant([Bind("Nom,Telephone,Email,Details")] Restaurant restaurant, [Bind("Numero, Rue, Ville, CodePostal")] Adresse adresse) {
+        public IActionResult CreateRestaurant(Restaurant restaurant) {
             if (ModelState.IsValid) {
-                restaurant.Adresse = adresse;
+                //restaurant.Adresse = adresse;
                 try {
                     _restaurantsService.CreateRestaurant(restaurant);
                 } catch(Exception) {
@@ -78,13 +78,13 @@ namespace AppRestaurants.Web.Controllers {
         // POST: Restaurants/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, [Bind("ID, Nom,Telephone,Email,Details, AdresseID")] Restaurant restaurant, [Bind("AdresseID, Numero, Rue, Ville, CodePostal")] Adresse adresse) {
-            if (id != restaurant.ID) {
-                return NotFound();
-            }
+        public IActionResult Edit(Restaurant restaurant) {
+            //if (id != restaurant.ID) {
+                //return NotFound();
+            //}
             if (ModelState.IsValid) {
                 try {
-                    restaurant.Adresse = adresse;
+                    //restaurant.Adresse = adresse;
                     _restaurantsService.UpdateRestaurant(restaurant);
                 } catch (Exception) {
                     return NotFound();
@@ -130,7 +130,7 @@ namespace AppRestaurants.Web.Controllers {
         // POST: Grades/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult CreateGrade([Bind("Note, DateDerniereVisite, Commentaire, RestaurantID")] Grade grade) {
+        public IActionResult CreateGrade(Grade grade) {
             if (ModelState.IsValid) {
                 _restaurantsService.GradeRestaurant(grade);
                 return RedirectToAction(nameof(GradesList));
@@ -141,19 +141,24 @@ namespace AppRestaurants.Web.Controllers {
 
         public IActionResult CreateGradeForRestaurant(int id) {
             var restaurant = _restaurantsService.GetRestaurantById(id);
-            //var grade = new Grade() { Restaurant = restaurant, RestaurantID = restaurant.ID };
+            //var grade = new Grade() { Restaurant = restaurant };
             return View(restaurant);
         }
 
         // POST: Grades/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult CreateGradeForRestaurant([Bind("Note, DateDerniereVisite, Commentaire, RestaurantID")] Grade grade) {
-            if (ModelState.IsValid) {
-                _restaurantsService.GradeRestaurant(grade);
-                return RedirectToAction(nameof(GradesList));
+        public IActionResult CreateGradeForRestaurant(Restaurant restaurant) {
+            if (restaurant.LastGrade != null) {
+                try {
+                    restaurant.LastGrade.RestaurantID = restaurant.ID;
+                    _restaurantsService.GradeRestaurant(restaurant.LastGrade);
+                    return RedirectToAction(nameof(GradesList));
+                } catch {
+                    return NotFound();
+                }
             }
-            return View(grade);
+            return View(restaurant);
         }
 
         public IActionResult GradesList() {
