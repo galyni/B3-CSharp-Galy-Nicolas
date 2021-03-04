@@ -62,7 +62,7 @@ namespace AppRestaurants.Data.Tests {
 
         [TestMethod]
         public void RestoreDatabaseFromJsonTest() {
-            string connectionStringTest = @"server=.\SQLEXPRESS;database=RestaurantsTest;trusted_connection=true;";
+            string connectionStringTest = @"server=.\SQLEXPRESS;database=B3Restaurants;trusted_connection=true;";
             try {
                 _jsonService.RestoreDatabaseFromJson(fileName, connectionStringTest);
             } catch (Exception e) {
