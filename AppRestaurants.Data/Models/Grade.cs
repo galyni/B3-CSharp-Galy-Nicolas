@@ -13,7 +13,7 @@ namespace AppRestaurants.Data.Models {
         public int Note { get; set; }
 
         [Required]
-        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         [DataType(DataType.Date)]
         public DateTime DateDerniereVisite { get; set; }
 
