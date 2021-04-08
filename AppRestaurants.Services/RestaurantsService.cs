@@ -16,7 +16,7 @@ namespace AppRestaurants.Services {
         }
 
         public virtual List<Restaurant> GetRestaurantsListWithGrades() {
-            return _ctx.Restaurants.Include(r => r.LastGrade).ToList();
+            return _ctx.Restaurants.Include(r => r.LastGrade).OrderByDescending(r => r.LastGrade.DateDerniereVisite).ToList();
         }
 
         public virtual List<Restaurant> GetRestaurantsListWithRelations() {
